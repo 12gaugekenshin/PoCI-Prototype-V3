@@ -1,0 +1,72 @@
+Red Team Cheat Sheet
+
+1. Payload Mutation
+
+event.payload += b"_corrupt"
+
+
+2. Bad Signature
+
+event.signature = os.urandom(64)
+
+
+3. Parent Drift
+
+event.parent_id = random.randint(0, event.id - 5)
+
+
+4. Timestamp Attack
+
+event.timestamp += random.randint(-500, 500)
+
+
+5. Slow-Drip Misbehavior
+
+if random.random() < 0.1: event = corrupt(event)
+
+
+6. Replay / Stolen Parent
+
+event.parent_id = random.choice(honest_ids)
+
+
+7. Fake Commit (payload mismatch)
+
+event.payload_commit = blake2b(b"fake").digest()
+
+
+8. Full Chaos (fuzz)
+
+event.payload = os.urandom(len(event.payload))
+event.signature = os.urandom(64)
+event.parent_id = random.randint(0, event.id)
+
+
+Add new attackers:
+
+class MyAttacker(AttackerBase):
+    def misbehave(self, event): ...
+
+
+####Useful Tips for Red-Teaming
+✔ Increase simulation length
+Longer runs expose drift attacks.
+
+✔ Mix 3–5 attacker types at once
+Real adversaries don’t coordinate; chaos reveals more.
+
+✔ Vary attacker density
+Try:
+
+1 attacker
+
+2 attackers
+
+50% attackers
+
+attacker majority
+
+You’ll get totally different graph dynamics.
+
+✔ Run random-seed tests
+This reveals worst-case paths.
