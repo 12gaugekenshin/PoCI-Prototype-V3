@@ -1,7 +1,7 @@
 # Proof-of-Compute-Integrity — Baseline Simulation
 This repository contains a minimal, working demonstration of a **cryptographic compute-integrity controller**, using real Ed25519 signatures and an adaptive trust/penalty system.  
 It is a simple and reproducible proof-of-concept meant for local testing.
-
+Persistence is kept between run's unless you clear data saved in file. This is as intended.
 ---
 
 ##  1. Requirements
